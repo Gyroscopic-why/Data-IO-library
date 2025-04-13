@@ -1,0 +1,7 @@
+C:\Users\egorg\Desktop\Egor\Programming\C#\Programs\.NET_4.8\_related Messenger\Data saving test\Data saving test\bin\Debug\Data saving test.exe.config
+C:\Users\egorg\Desktop\Egor\Programming\C#\Programs\.NET_4.8\_related Messenger\Data saving test\Data saving test\bin\Debug\Data saving test.exe
+C:\Users\egorg\Desktop\Egor\Programming\C#\Programs\.NET_4.8\_related Messenger\Data saving test\Data saving test\bin\Debug\Data saving test.pdb
+C:\Users\egorg\Desktop\Egor\Programming\C#\Programs\.NET_4.8\_related Messenger\Data saving test\Data saving test\obj\Debug\Data saving test.csproj.AssemblyReference.cache
+C:\Users\egorg\Desktop\Egor\Programming\C#\Programs\.NET_4.8\_related Messenger\Data saving test\Data saving test\obj\Debug\Data saving test.csproj.CoreCompileInputs.cache
+C:\Users\egorg\Desktop\Egor\Programming\C#\Programs\.NET_4.8\_related Messenger\Data saving test\Data saving test\obj\Debug\Data saving test.exe
+C:\Users\egorg\Desktop\Egor\Programming\C#\Programs\.NET_4.8\_related Messenger\Data saving test\Data saving test\obj\Debug\Data saving test.pdb

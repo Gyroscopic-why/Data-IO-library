@@ -1,0 +1,32 @@
+Hello, this is a sample for the data
+
+It can be anything you like
+
+-> $This is just an example
+
+
+
+    White space will be  destroyed
+    (although you can cancel that)
+
+
+
+The stock function ReadData is callibrated to parse data like this
+0,1,14,2424,109522,-140235
+12,2525,73110,410
+
+24,574
+7,47
+547,4,47
+
+
+
+Last lines that are wjite space will also be cut off
+    Example  |
+             V
+            
+        
+        
+             
+
+                   

@@ -12,11 +12,11 @@ namespace DataManipulationTest
             string path = GetPath(true);
             Write("\n\tChosen path: " + path + "\n\n");
 
-            List<string> data = ReadSavedData(path, "Test data1.txt", true);
+            List<string> data = ReadData(path, "Test data1.db", true);
 
             if (data != null)
             {
-                Write("\n\tParsed data from file >Test data1.txt<:");
+                Write("\n\tParsed data from file >Test data1.db<:");
                 for (int i = 0; i < data.Count; i++)
                 {
                     Write("\n\t\tfoundData[" + i + "] = " + data[i]);
@@ -26,16 +26,16 @@ namespace DataManipulationTest
 
 
 
-            SaveData(path, "Test data2.txt", data, true, true);
+            SaveData(path, "Test data2.db", data, true, true);
             WaitForKey();
 
 
 
-            data = ReadSavedData(path, "Test data2.txt", true);
+            data = ReadData(path, "Test data2.db", true);
 
             if (data != null)
             {
-                Write("\n\tParsed data from file >Test data2.txt<:");
+                Write("\n\tParsed data from file >Test data2.db<:");
                 for (int i = 0; i < data.Count; i++)
                 {
                     Write("\n\t\tfoundData[" + i + "] = " + data[i]);
@@ -45,12 +45,12 @@ namespace DataManipulationTest
 
 
 
-            ClearData(path, "Test data2.txt", true);
+            ClearData(path, "Test data2.db", true);
             WaitForKey();
 
 
 
-            DeleteData(path, "Test data2.txt", true);
+            DeleteData(path, "Test data2.db", true);
             Write("\n\tTest finished. Press any key to exit ");
             ReadKey();
         }

@@ -11,10 +11,24 @@ namespace DataManipulationTest
     {
         static public string GetPath(bool _custom = false)
         {
+            //  Storing the final path here
+            string _path;
+
             if (!_custom)
             {
-                //  Return the path to the project folder
-                return Directory.GetCurrentDirectory();
+                //  If the path does not exist, return the path to the project folder
+                _path = Directory.GetCurrentDirectory();
+
+                //  Exit the \bin\Debug     folder
+                //  Or the   \bin\Release   folder
+                _path = _path.Remove(_path.LastIndexOf('\\'));
+
+                //  Create a new folder for the custom data
+                Directory.GetParent(_path).CreateSubdirectory("CustomData");
+
+                //  Change the path from the\bin  to the \CustomData folder
+                _path = _path.Remove(_path.LastIndexOf('\\')) + "\\CustomData\\";
+                return _path;
             }
             else
             {
@@ -22,13 +36,13 @@ namespace DataManipulationTest
                 Write("\n\tEnter a path for the files to save sample data: ");
 
                 //  Read the user path
-                string _path = ReadLine();
+                _path = ReadLine();
 
                 //  Check if the chosen path exists
                 if (!Directory.Exists(_path))
                 {
-                    //  If the path does not exist, return the path to the project folder
-                    return Directory.GetCurrentDirectory();
+                    //  If the path does not exist, return stock path
+                    _path = GetPath(false);
                 }
 
                 //  Return chosen path
@@ -37,7 +51,7 @@ namespace DataManipulationTest
         }
              //  Getting the path to the project folder
 
-        static public List<string> ReadSavedData(string _path, string _fileName, bool _showInfo = false)
+        static public List<string> ReadData(string _path, string _fileName, bool _showInfo = false)
         {
             if (File.Exists(Path.Combine(_path, _fileName)))
             {
