@@ -3,18 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\egorg\\Desktop\\Egor\\Programming\\C#\\Programs\\.NET_4.8\\_related Messenger\\Data saving test\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|Data saving test||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{254D6E7A-799B-4EB5-A807-650089735F9B}|Data saving test\\Data saving test.csproj|c:\\users\\egorg\\desktop\\egor\\programming\\c#\\programs\\.net_4.8\\_related messenger\\data saving test\\data saving test\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{254D6E7A-799B-4EB5-A807-650089735F9B}|Data saving test\\Data saving test.csproj|solutionrelative:data saving test\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{254D6E7A-799B-4EB5-A807-650089735F9B}|Data saving test\\Data saving test.csproj|C:\\Users\\egorg\\Desktop\\Egor\\Programming\\C#\\Programs\\.NET_4.8\\_related Messenger\\Data saving test\\data saving test\\customfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{254D6E7A-799B-4EB5-A807-650089735F9B}|Data saving test\\Data saving test.csproj|solutionrelative:data saving test\\customfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{254D6E7A-799B-4EB5-A807-650089735F9B}|Data saving test\\Data saving test.csproj|c:\\users\\egorg\\desktop\\egor\\programming\\c#\\programs\\.net_4.8\\_related messenger\\data saving test\\data saving test\\||{B270807C-D8C6-49EB-8EBE-8E8D566637A1}|5e9a8ac2-4f34-4521-858f-4c248ba31532"
     }
   ],
   "DocumentGroupContainers": [
@@ -24,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -32,38 +26,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Data saving test",
-              "DocumentMoniker": "C:\\Users\\egorg\\Desktop\\Egor\\Programming\\C#\\Programs\\.NET_4.8\\_related Messenger\\Data saving test\\Data saving test\\Data saving test.csproj",
-              "RelativeDocumentMoniker": "Data saving test\\Data saving test.csproj",
-              "ToolTip": "C:\\Users\\egorg\\Desktop\\Egor\\Programming\\C#\\Programs\\.NET_4.8\\_related Messenger\\Data saving test\\Data saving test\\Data saving test.csproj",
-              "RelativeToolTip": "Data saving test\\Data saving test.csproj",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-04-13T16:14:08.303Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "CustomFunctions.cs",
               "DocumentMoniker": "C:\\Users\\egorg\\Desktop\\Egor\\Programming\\C#\\Programs\\.NET_4.8\\_related Messenger\\Data saving test\\Data saving test\\CustomFunctions.cs",
               "RelativeDocumentMoniker": "Data saving test\\CustomFunctions.cs",
               "ToolTip": "C:\\Users\\egorg\\Desktop\\Egor\\Programming\\C#\\Programs\\.NET_4.8\\_related Messenger\\Data saving test\\Data saving test\\CustomFunctions.cs",
               "RelativeToolTip": "Data saving test\\CustomFunctions.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAADwvwsAAAA6AAAAAAAAAA==",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAvwEsAAABfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-28T23:23:48.025Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\egorg\\Desktop\\Egor\\Programming\\C#\\Programs\\.NET_4.8\\_related Messenger\\Data saving test\\Data saving test\\Program.cs",
               "RelativeDocumentMoniker": "Data saving test\\Program.cs",
               "ToolTip": "C:\\Users\\egorg\\Desktop\\Egor\\Programming\\C#\\Programs\\.NET_4.8\\_related Messenger\\Data saving test\\Data saving test\\Program.cs",
               "RelativeToolTip": "Data saving test\\Program.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAQwCEAAAAXAAAAAAAAAA==",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAEwDkAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-28T23:23:15.06Z",
               "EditorCaption": ""
