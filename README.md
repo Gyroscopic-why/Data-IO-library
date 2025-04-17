@@ -1,4 +1,4 @@
-# Data saving test
+# Data manipulation C# custom library
 C# small library for easy data manipulation through C# code
 
 _(made it because the implementation through the standart C#  System.IO library is just pure pain)_
