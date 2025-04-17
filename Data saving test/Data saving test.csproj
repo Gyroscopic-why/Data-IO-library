@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{254D6E7A-799B-4EB5-A807-650089735F9B}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>Data_saving_test</RootNamespace>
     <AssemblyName>Data saving test</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>

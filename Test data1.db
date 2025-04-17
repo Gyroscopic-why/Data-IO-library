@@ -1,0 +1,41 @@
+Hello, this is a sample for the data
+It can be anything you like
+
+$-> $$Thi$$s $is$$ ju$$st a$n$ ex$a$$mp$le$
+@<- @Th@e@s@@e @c@@h@@ar@ac@@@te@rs @@@@wi@@l@l@@ @b@@e @i@@@gn@or@@ed@@
+#  This line will be ignored in the parsing
+
+#  There are many parameters for the parsing function
+
+
+    White space will be also be destroyed
+    (although you can cancel that)
+$Notice that in this line, the white space is kept     without   losses   :0
+@You can do it with any special character you like
+
+The intended use of the parsing function is for data like this
+0,1,14,2424,109522,-140235
+12,2525,73110,410
+
+@ Name for this data
+24,574
+
+$ Next name
+7,47
+
+# Not important comment for the program 
+# This will not be seen in the parsed section
+# If you enable a special filter
+547,4,47
+
+
+
+Last lines that are white space can also be cut off
+    Example  |
+             V
+            
+        
+        
+             
+
+                   

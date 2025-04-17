@@ -2,6 +2,6 @@ C:\Users\egorg\Desktop\Egor\Programming\C#\Programs\.NET_4.8\_related Messenger\
 C:\Users\egorg\Desktop\Egor\Programming\C#\Programs\.NET_4.8\_related Messenger\Data saving test\Data saving test\obj\Release\Data saving test.csproj.AssemblyReference.cache
 C:\Users\egorg\Desktop\Egor\Programming\C#\Programs\.NET_4.8\_related Messenger\Data saving test\Data saving test\obj\Release\Data saving test.csproj.CoreCompileInputs.cache
 C:\Users\egorg\Desktop\Egor\Programming\C#\Programs\.NET_4.8\_related Messenger\Data saving test\Data saving test\obj\Release\Data saving test.pdb
-C:\Users\egorg\Desktop\Egor\Programming\C#\Programs\.NET_4.8\_related Messenger\Data saving test\Data saving test\bin\Release\Data saving test.dll.config
-C:\Users\egorg\Desktop\Egor\Programming\C#\Programs\.NET_4.8\_related Messenger\Data saving test\Data saving test\bin\Release\Data saving test.dll
-C:\Users\egorg\Desktop\Egor\Programming\C#\Programs\.NET_4.8\_related Messenger\Data saving test\Data saving test\obj\Release\Data saving test.dll
+C:\Users\egorg\Desktop\Egor\Programming\C#\Programs\.NET_4.8\_related Messenger\Data saving test\Data saving test\bin\Release\Data saving test.exe.config
+C:\Users\egorg\Desktop\Egor\Programming\C#\Programs\.NET_4.8\_related Messenger\Data saving test\Data saving test\bin\Release\Data saving test.exe
+C:\Users\egorg\Desktop\Egor\Programming\C#\Programs\.NET_4.8\_related Messenger\Data saving test\Data saving test\obj\Release\Data saving test.exe
