@@ -2,116 +2,153 @@
 using System.Collections.Generic;
 using static System.Console;
 
-using static DataManipulationTest.CustomFunctions;
+using static DataManipulationLibrary.CustomFunctions;
 
-namespace DataManipulationTest
+namespace DataManipulationLibrary
 {
     class Program
     {
         static void Main()
         {
+            Title = "Data Manipulation Library demo";
+
+            //  Set the language for the output
+            //  True = english,  false = russian
+            bool useEngLang = true;
+
+
             //  Get a path for the files
-            string path = GetPath(true, "\\Gyroscopic\\DataManipulation\\TestData", true);
-            Write("\n\tChosen path: " + path + "\n\n");
+            Write("\n\n\n\n\n\n");
+            string path = GetPath(true, "\\Gyroscopic\\DataManipulation\\TestData", true, useEngLang);
+
+
+            //  Ouput chosen path, accounting for the language
+            if (useEngLang) Write("\n\tChosen path: " + path + "\n\n");
+            else Write("\n\tВыбранный путь: " + path + "\n\n");
 
 
             //  Read the data from the demo file
-            List<string> data = ReadData(path, "Test data1.db", true);
+            WaitForAnyKey(true, useEngLang);
+            List<string> data = ReadData(path, "Test data1.db", true, useEngLang);
 
 
             //  If any data is found
             if (data != null)
             {
                 //  Output the found data
-                Write("\n\tStock read data from file >Test data1.db<:");
+                if (useEngLang) Write("\n\tStock read data from file >Test data1.db<:");
+                else Write("\n\tСчитанные данные из файла >Test data1.db<:");
+
+                //  Output the read data
                 for (int i = 0; i < data.Count; i++)
                 {
-                    Write("\n\t\tdata[" + i + "] = " + data[i]);
+                    Write("\n\t\t[" + i + "] = " + data[i]);
                 }
             }
-            WaitForKey();
+            WaitForAnyKey(false, useEngLang);
 
             
             //  Parse the read data
-            List<string> parsedData = ParseData(data, true, true, "$@", "#", "$@", true);
+            List<string> parsedData = ParseData(data, true, true, "$@", "#", "$@", true, useEngLang);
 
 
             //  If the parsing was successful
             if (parsedData != null)
             {
                 //  Ouput the parsed data
-                Write("\n\tParsed data from file >Test data1.db<:");
+                if (useEngLang) Write("\n\tParsed data from file >Test data1.db<:");
+                else Write("\n\tСчитанные данные из файла >Test data1.db<:");
+
+                //  Output the parsed data
                 for (int i = 0; i < parsedData.Count; i++)
                 {
-                    Write("\n\t\tparsedData[" + i + "] = " + parsedData[i]);
+                    Write("\n\t\t[" + i + "] = " + parsedData[i]);
                 }
             }
-            WaitForKey();
+            WaitForAnyKey(true, useEngLang);
 
 
             //  Save the parsed data to a new file
-            SaveData(path, "Test data2.db", data, true, true);
-            WaitForKey();
+            SaveData(path, "Test data2.db", data, true, true, useEngLang);
+            WaitForAnyKey(false, useEngLang);
 
 
             //  Read the data from the temporary file
-            data = ReadData(path, "Test data2.db", true);
+            data = ReadData(path, "Test data2.db", true, useEngLang);
 
 
             //  If the data read was successful
             if (data != null)
             {
                 //  Output the read data
-                Write("\n\tStock read data from file >Test data2.db<:");
+                if (useEngLang) Write("\n\tStock read data from file >Test data2.db<:");
+                else Write("\n\tСчитанные данные из файла >Test data2.db<:");
+
+                //  Output the read data
                 for (int i = 0; i < data.Count; i++)
                 {
-                    Write("\n\t\tdata[" + i + "] = " + data[i]);
+                    Write("\n\t\t[" + i + "] = " + data[i]);
                 }
             }
-            WaitForKey();
+            WaitForAnyKey(false, useEngLang);
 
 
             //  Parse the read data
-            parsedData = ParseData(data, true, true, "$@", "#", "$@", true);
+            parsedData = ParseData(data, true, true, "$@", "#", "$@", true, useEngLang);
 
 
             //  If the parsing was successful
             if (parsedData != null)
             {
-                Write("\n\tParsed data from file >Test data2.db<:");
+                //  Ouput the parsed data
+                if (useEngLang) Write("\n\tParsed data from file >Test data2.db<:");
+                else Write("\n\tСчитанные данные из файла >Test data2.db<:");
+
+                //  Output the parsed data
                 for (int i = 0; i < parsedData.Count; i++)
                 {
-                    Write("\n\t\tparsedData[" + i + "] = " + parsedData[i]);
+                    Write("\n\t\t[" + i + "] = " + parsedData[i]);
                 }
             }
-            WaitForKey();
+            WaitForAnyKey(true, useEngLang);
 
 
             //  Clear the temporary file
-            ClearFile(path, "Test data2.db", true);
-            WaitForKey();
+            ClearFile(path, "Test data2.db", true, useEngLang);
+            WaitForAnyKey(true, useEngLang);
 
 
             //  Read the data from the new file
-            data = ReadData(path, "Test data2.db", true);
+            data = ReadData(path, "Test data2.db", true, useEngLang);
 
 
             //  If the data read was successful
             if (data != null)
             {
                 //  Output the read data
-                Write("\n\tStock read data from file >Test data2.db<:");
+                if (useEngLang) Write("\n\tStock read data from file >Test data2.db<:");
+                else Write("\n\tСчитанные данные из файла >Test data2.db<:");
+
+                //  Output the read data
                 for (int i = 0; i < data.Count; i++)
                 {
-                    Write("\n\t\tdata[" + i + "] = " + data[i]);
+                    Write("\n\t\t[" + i + "] = " + data[i]);
                 }
             }
-            WaitForKey();
+            WaitForAnyKey(true, useEngLang);
+
 
 
             //  Delete the temporary file
-            DeleteFile(path, "Test data2.db", true);
-            Write("\n\tTest finished. Press any key to exit ");
+            DeleteFile(path, "Test data2.db", true, useEngLang);
+
+
+
+            //  Output the demo end message
+            if (useEngLang) Write("\n\tDemo finished. Press any key to exit ");
+            else Write("\n\tДемо завершено. Нажмите любую клавишу для выхода ");
+
+            //  Wait foy any user key to close the program
             ReadKey();
         }
     }
