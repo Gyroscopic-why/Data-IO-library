@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using static System.Console;
 
 using static DataManipulationLibrary.CustomFunctions;
@@ -16,7 +17,7 @@ namespace DataManipulationLibrary
             //  True = english,  false = russian
             bool useEngLang = true;
 
-
+            
             //  Get a path for the files
             Write("\n\n\n\n\n\n");
             string path = GetPath(true, "\\Gyroscopic\\DataManipulation\\TestData", true, useEngLang);
@@ -26,6 +27,20 @@ namespace DataManipulationLibrary
             if (useEngLang) Write("\n\tChosen path: " + path + "\n\n");
             else Write("\n\tВыбранный путь: " + path + "\n\n");
 
+
+
+
+            //  Find files in the current directory
+            string[] files = GetFiles(path, true, true);
+
+            //  Print all found files
+            for (int i = 0; i < files.Length; i++)
+            {
+                if (useEngLang) Write("\tFound file: " + files[i] + "\n");
+                else Write("\tНайден файл: " + files[i] + "\n");
+            }
+
+            
 
             //  Read the data from the demo file
             WaitForAnyKey(true, useEngLang);
