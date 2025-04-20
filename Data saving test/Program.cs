@@ -26,8 +26,7 @@ namespace DataManipulationLibrary
             //  Ouput chosen path, accounting for the language
             if (useEngLang) Write("\n\tChosen path: " + path + "\n\n");
             else Write("\n\tВыбранный путь: " + path + "\n\n");
-
-
+            WaitForAnyKey(false, useEngLang);
 
 
             //  Find files in the current directory
@@ -39,11 +38,10 @@ namespace DataManipulationLibrary
                 if (useEngLang) Write("\tFound file: " + files[i] + "\n");
                 else Write("\tНайден файл: " + files[i] + "\n");
             }
+            WaitForAnyKey(true, useEngLang);
 
-            
 
             //  Read the data from the demo file
-            WaitForAnyKey(true, useEngLang);
             List<string> data = ReadData(path, "Test data1.db", true, useEngLang);
 
 
