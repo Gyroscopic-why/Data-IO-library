@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using static System.Console;
 
 using static DataManipulationLibrary.CustomFunctions;
@@ -11,18 +9,19 @@ namespace DataManipulationLibrary
     {
         static void Main()
         {
-            Title = "Data Manipulation Library demo";
-
             //  Set the language for the output
             //  True = english,  false = russian
-            bool useEngLang = true;
+            bool useEngLang = GetLanguage();
 
-            
+            if (useEngLang) Title = "Data Manipulation Library demo";
+            else Title = "Демо библиотеки манипуляции данными";
+
+
             //  Get a path for the files
             Write("\n\n\n\n\n\n");
             string path = GetPath(true, "\\Gyroscopic\\DataManipulation\\TestData", true, useEngLang);
 
-
+            
             //  Ouput chosen path, accounting for the language
             if (useEngLang) Write("\n\tChosen path: " + path + "\n\n");
             else Write("\n\tВыбранный путь: " + path + "\n\n");
@@ -42,15 +41,15 @@ namespace DataManipulationLibrary
 
 
             //  Read the data from the demo file
-            List<string> data = ReadData(path, "Test data1.db", true, useEngLang);
+            List<string> data = ReadData(path, "Test data1.txt", true, useEngLang);
 
 
             //  If any data is found
             if (data != null)
             {
                 //  Output the found data
-                if (useEngLang) Write("\n\tStock read data from file >Test data1.db<:");
-                else Write("\n\tСчитанные данные из файла >Test data1.db<:");
+                if (useEngLang) Write("\n\tStock read data from file >Test data1.txt<:");
+                else Write("\n\tСчитанные данные из файла >Test data1.txt<:");
 
                 //  Output the read data
                 for (int i = 0; i < data.Count; i++)
@@ -69,8 +68,8 @@ namespace DataManipulationLibrary
             if (parsedData != null)
             {
                 //  Ouput the parsed data
-                if (useEngLang) Write("\n\tParsed data from file >Test data1.db<:");
-                else Write("\n\tСчитанные данные из файла >Test data1.db<:");
+                if (useEngLang) Write("\n\tParsed data from file >Test data1.txt<:");
+                else Write("\n\tСчитанные данные из файла >Test data1.txt<:");
 
                 //  Output the parsed data
                 for (int i = 0; i < parsedData.Count; i++)
@@ -82,20 +81,20 @@ namespace DataManipulationLibrary
 
 
             //  Save the parsed data to a new file
-            SaveData(path, "Test data2.db", data, true, true, useEngLang);
+            SaveData(path, "Test data2.txt", data, true, "\n", true, useEngLang);
             WaitForAnyKey(false, useEngLang);
 
 
             //  Read the data from the temporary file
-            data = ReadData(path, "Test data2.db", true, useEngLang);
+            data = ReadData(path, "Test data2.txt", true, useEngLang);
 
 
             //  If the data read was successful
             if (data != null)
             {
                 //  Output the read data
-                if (useEngLang) Write("\n\tStock read data from file >Test data2.db<:");
-                else Write("\n\tСчитанные данные из файла >Test data2.db<:");
+                if (useEngLang) Write("\n\tStock read data from file >Test data2.txt<:");
+                else Write("\n\tСчитанные данные из файла >Test data2.txt<:");
 
                 //  Output the read data
                 for (int i = 0; i < data.Count; i++)
@@ -114,8 +113,8 @@ namespace DataManipulationLibrary
             if (parsedData != null)
             {
                 //  Ouput the parsed data
-                if (useEngLang) Write("\n\tParsed data from file >Test data2.db<:");
-                else Write("\n\tСчитанные данные из файла >Test data2.db<:");
+                if (useEngLang) Write("\n\tParsed data from file >Test data2.txt<:");
+                else Write("\n\tСчитанные данные из файла >Test data2.txt<:");
 
                 //  Output the parsed data
                 for (int i = 0; i < parsedData.Count; i++)
@@ -127,20 +126,20 @@ namespace DataManipulationLibrary
 
 
             //  Clear the temporary file
-            ClearFile(path, "Test data2.db", true, useEngLang);
+            ClearFile(path, "Test data2.txt", true, useEngLang);
             WaitForAnyKey(true, useEngLang);
 
 
             //  Read the data from the new file
-            data = ReadData(path, "Test data2.db", true, useEngLang);
+            data = ReadData(path, "Test data2.txt", true, useEngLang);
 
 
             //  If the data read was successful
             if (data != null)
             {
                 //  Output the read data
-                if (useEngLang) Write("\n\tStock read data from file >Test data2.db<:");
-                else Write("\n\tСчитанные данные из файла >Test data2.db<:");
+                if (useEngLang) Write("\n\tStock read data from file >Test data2.txt<:");
+                else Write("\n\tСчитанные данные из файла >Test data2.txt<:");
 
                 //  Output the read data
                 for (int i = 0; i < data.Count; i++)
@@ -153,7 +152,7 @@ namespace DataManipulationLibrary
 
 
             //  Delete the temporary file
-            DeleteFile(path, "Test data2.db", true, useEngLang);
+            DeleteFile(path, "Test data2.txt", true, useEngLang);
 
 
 

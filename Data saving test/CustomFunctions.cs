@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 
 using static System.Console;
+using System.Text;
 
 
 namespace DataManipulationLibrary
@@ -12,7 +13,7 @@ namespace DataManipulationLibrary
 
         //-----------------------------  Path related functions  ------------------------------------------//
 
-        
+
         static public string GetPath(bool _custom = false, string _subFolder = "\\Gyroscopic\\Unnamed",
             bool _showInfo = false, bool _engLang = true, string _margin = "\t",
             string _startLine = "", string _endLine = "\n")
@@ -316,6 +317,7 @@ namespace DataManipulationLibrary
 
         //----------------------------  Data manipulation related functions  ---------------------------------//
 
+        //============================  Data reading  and parsing functions  =================================//
 
         static public List<string> ParseData(List<string> _data, bool _removeEmptyLines = false, 
             bool _removeSpace = false, string _spaceRemoveException = "", 
@@ -473,6 +475,7 @@ namespace DataManipulationLibrary
               *     -  Information output                            */
 
 
+
         static public List<string> ReadData(string _path, string _fileName, 
             bool _showInfo = false, bool _engLang = true, string _margin = "\t",
             string _startLine = "", string _endLine = "\n")
@@ -481,7 +484,7 @@ namespace DataManipulationLibrary
             {
                 try
                 {
-                    //  Open the file from the selected path
+                    //  Initialize the file manager
                     StreamReader _dataReader = new StreamReader(Path.Combine(_path, _fileName));
 
                     //  Storing the parsed result from the file
@@ -574,13 +577,121 @@ namespace DataManipulationLibrary
              //  Reading and returning the data inside a file
 
 
+        static public List<byte> ReadBinaryData(string _path, string _fileName,
+            bool _showInfo = false, bool _engLang = true, string _margin = "\t",
+            string _startLine = "", string _endLine = "\n")
+        {
+            if (File.Exists(Path.Combine(_path, _fileName)))
+            {
+                try
+                {
+                    //  Set the data read mode
+                    Stream _stream = new FileStream(Path.Combine(_path, _fileName), FileMode.Open);
+
+                    //  Initialize the file manager
+                    BinaryReader _binaryDataReader = new BinaryReader(_stream);
+
+
+                    //  Storing the parsed result from the file
+                    List<byte> _foundData = new List<byte>();
+
+                    //  Temporary buffer to store the read bytes
+                    byte _helper;
+
+                    //  Read bytes untill the file end
+                    for(int i = 0; i < _binaryDataReader.BaseStream.Length; i++)
+                    {
+                        //  Read next byte from current position
+                        _helper = _binaryDataReader.ReadByte();
+
+                        //  Save the read byte
+                        _foundData.Add(_helper);
+                    }
+
+                    //  Close the file manager
+                    _binaryDataReader.Close();
+
+
+                    //  Show success message (optional)
+                    if (_showInfo)
+                    {
+                        //  Write the newline and margin (optional)
+                        Write(_startLine + _margin);
+
+                        //  Write the success message
+                        if (_engLang) Write("Binary file >" + _fileName + "< was successfully read");
+                        else Write("Двоичный файл >" + _fileName + "< был успешно прочитан");
+
+                        //  Write end line (optional)
+                        Write(_endLine);
+                    }
+
+                    //  Return the found data
+                    return _foundData;
+                }
+                catch (Exception e)  // Error exception
+                {
+                    //  Show error message (optional)
+                    if (_showInfo)
+                    {
+                        //  Write the newline and margin (optional)
+                        Write(_startLine + _margin);
+
+                        //  Write the error message
+                        if (_engLang)
+                        {
+                            Write("Error while reading the binary file >" + _fileName + "<\n");
+                            Write(_margin + "Output error: " + e);
+                        }
+                        else
+                        {
+                            Write("Ошибка при чтении двоичного файла >" + _fileName + "<\n");
+                            Write(_margin + "Код ошибки: " + e);
+                        }
+
+                        //  Write end line (optional)
+                        Write(_endLine);
+                    }
+
+                    //  Return error
+                    return null;
+                }
+            }
+            else
+            {
+                //  If the file was not found, output error message (optional)
+                if (_showInfo)
+                {
+                    //  Write the newline and margin (optional)
+                    Write(_startLine + _margin);
+
+                    //  Write the error message
+                    if (_engLang) Write("Error while reading the binary file! File >" + _fileName + "< was not found");
+                    else Write("Ошибка при чтении двоичного файла! Файл >" + _fileName + "< не найден");
+
+                    //  Write end line (optional)
+                    Write(_endLine);
+                }
+
+                //  Return error
+                return null;
+            }
+        }
+             //  Reading and returning the binary data inside a file
+
+
+
+        //============================  Data saving related functions  =======================================//
+
+
         static public void SaveData(string _path, string _fileName, List<string> _data, 
-            bool _dontOverwrite, bool _showInfo = false, bool _engLang = true, string _margin = "\t",
+            bool _dontOverwrite, string _splitDataBy = "\n",
+            bool _showInfo = false, bool _engLang = true, string _margin = "\t",
             string _startLine = "", string _endLine = "\n")
         {
             try
             {
-                //  Open the file from the selected path
+                //  Initialize the file manager
                 StreamWriter _dataSaver = new StreamWriter(Path.Combine(_path, _fileName), _dontOverwrite);
 
                 if (_data != null)
@@ -588,8 +699,14 @@ namespace DataManipulationLibrary
                     for (int i = 0; i < _data.Count; i++)
                     {
                         //  Save the data to the file
-                        _dataSaver.Write(_data[i] + "\n");
+                        _dataSaver.Write(_data[i]);
+
+                        //  Split the data in the file
+                        _dataSaver.Write(_splitDataBy);
                     }
+                    //  Save the last data chunk (without the splitter)
+                    _dataSaver.Write(_data[_data.Count - 1]);
+
 
                     //  Show success message (optional)
                     if (_showInfo)
@@ -660,10 +777,233 @@ namespace DataManipulationLibrary
              //  Saving some data to a chosen file, or trying to create it and then save the data
 
 
+        static public void SaveBinaryData(string _path, string _fileName, List<byte> _data, 
+            bool _dontOverwrite, string _splitDataBy = "\n",
+            bool _showInfo = false, bool _engLang = true, string _margin = "\t",
+            string _startLine = "", string _endLine = "\n")
+        {
+            try
+            {
+                //  Initialize the data saving mode
+                FileStream _stream;
+                if (!_dontOverwrite)  _stream = new FileStream(Path.Combine(_path, _fileName), FileMode.Create);
+                else                  _stream = new FileStream(Path.Combine(_path, _fileName), FileMode.Append);
+
+                //  Create a new binary writer
+                BinaryWriter _binaryDataSaver = new BinaryWriter(_stream);
+
+                if (_data != null)
+                {
+                    //  Convert data splitters to bytes (for binary encoding)
+                    byte[] splitterBytes = Encoding.UTF8.GetBytes(_splitDataBy);
+
+                    for (int i = 0; i < _data.Count - 1; i++)
+                    {
+                        //  Save the data to the file
+                        _binaryDataSaver.Write(_data[i]);
+
+                        //  Split the data in the file (also in binary)
+                        _binaryDataSaver.Write(splitterBytes);
+                    }
+                    //  Save the final data chunk to the file (without the splitter)
+                    _binaryDataSaver.Write(_data[_data.Count - 1]);
+
+
+
+                    //  Show success message (optional)
+                    if (_showInfo)
+                    {
+                        //  Write the newline and margin (optional)
+                        Write(_startLine + _margin);
+
+                        //  Write the success message
+                        if (_engLang) Write("Successfully saved the binary data to the file >" + _fileName + "<");
+                        else Write("Успешно сохранены двоичные данные в файл >" + _fileName + "<");
+
+                        //  Write end line (optional)
+                        Write(_endLine);
+                    }
+                }
+
+                //  Show error message (optional)
+                else if (_showInfo)
+                {
+                    //  Write the newline and margin if needed
+                    Write(_startLine + _margin);
+
+                    //  Write the error message
+                    if (_engLang)
+                    {
+                        Write("Error saving the binary data to the file >" + _fileName + "<\n");
+                        Write(_margin + "Output error: Data is null");
+                    }
+                    else
+                    {
+                        Write("Ошибка сохранения двоичных данных в файл >" + _fileName + "<\n");
+                        Write(_margin + "Код ошибки: Данные равны null");
+                    }
+
+                    //  Write end line if needed
+                    Write(_endLine);
+                }
+
+
+                //  Close the file manager
+                _binaryDataSaver.Close();
+            }
+            catch (Exception e)  // Error exception
+            {
+                //  Show error message (optional)
+                if (_showInfo)
+                {
+                    //  Write the newline and margin (optional)
+                    Write(_startLine + _margin);
+
+                    //  Write the error message
+                    if (_engLang)
+                    {
+                        Write("Error saving the binary data to the file >" + _fileName + "<\n");
+                        Write(_margin + "Output error: " + e);
+                    }
+                    else
+                    {
+                        Write("Ошибка сохранения двоичных данных в файл >" + _fileName + "<\n");
+                        Write(_margin + "Код ошибки: " + e);
+                    }
+
+                    //  Write end line (optional)
+                    Write(_endLine);
+                }
+            }
+        }
+             //  Saving some data to a chosen file, or trying to create it and then save the data
+
+
+
+        /// <summary>
+        /// 
+        /// Code purpose: <br/>
+        ///  - Saves the byte[] binary <paramref name="_data"/> 
+        /// to a file <paramref name="_fileName"/> at the chosen <paramref name="_path"/>
+        /// 
+        /// </summary>
+        /// 
+        /// <param name="_path"> - path for the file location</param>
+        /// <param name="_fileName"> - name for the final file</param>
+        /// <param name="_data"> - byte[] array of our data</param>
+        /// <param name="_dontOverwrite"> - flag for not overwriting the contents in the file</param>
+        /// <param name="_splitDataBy"> - splitter for the data array</param>
+        /// <param name="_showInfo"> - flag for showing info about the process</param>
+        /// <param name="_engLang"> - language for the info output</param>
+        /// <param name="_margin"> - margin for the info output</param>
+        /// <param name="_startLine"> - startline before each info output</param>
+        /// <param name="_endLine"> - endline after each info output</param>
+        static public void SaveBinaryData(string _path, string _fileName, List<byte[]> _data,
+            bool _dontOverwrite, string _splitDataBy = "\n",
+            bool _showInfo = false, bool _engLang = true, string _margin = "\t",
+            string _startLine = "", string _endLine = "\n")
+        {
+            try
+            {
+                //  Initialize the data saving mode
+                FileStream _stream;
+                if (!_dontOverwrite) _stream = new FileStream(Path.Combine(_path, _fileName), FileMode.Create);
+                else                 _stream = new FileStream(Path.Combine(_path, _fileName), FileMode.Append);
+
+                //  Create a new binary writer
+                BinaryWriter _binaryDataSaver = new BinaryWriter(_stream);
+
+                if (_data != null)
+                {
+                    //  Convert data splitters to bytes (for binary encoding)
+                    byte[] splitterBytes = Encoding.UTF8.GetBytes(_splitDataBy);
+
+                    for (int i = 0; i < _data.Count - 1; i++)
+                    {
+                        //  Save the data to the file
+                        _binaryDataSaver.Write(_data[i]);
+
+                        //  Split the data in the file (also in binary)
+                        _binaryDataSaver.Write(splitterBytes);
+                    }
+                    //  Save the final data chunk to the file (without the splitter)
+                    _binaryDataSaver.Write(_data[_data.Count - 1]);
+
+
+                    //  Show success message (optional)
+                    if (_showInfo)
+                    {
+                        //  Write the newline and margin (optional)
+                        Write(_startLine + _margin);
+
+                        //  Write the success message
+                        if (_engLang) Write("Successfully saved the binary data to the file >" + _fileName + "<");
+                        else Write("Успешно сохранены двоичные данные в файл >" + _fileName + "<");
+
+                        //  Write end line (optional)
+                        Write(_endLine);
+                    }
+                }
+
+                //  Show error message (optional)
+                else if (_showInfo)
+                {
+                    //  Write the newline and margin if needed
+                    Write(_startLine + _margin);
+
+                    //  Write the error message
+                    if (_engLang)
+                    {
+                        Write("Error saving the binary data to the file >" + _fileName + "<\n");
+                        Write(_margin + "Output error: Data is null");
+                    }
+                    else
+                    {
+                        Write("Ошибка сохранения двоичных данных в файл >" + _fileName + "<\n");
+                        Write(_margin + "Код ошибки: Данные равны null");
+                    }
+
+                    //  Write end line if needed
+                    Write(_endLine);
+                }
+
+
+                //  Close the file manager
+                _binaryDataSaver.Close();
+            }
+            catch (Exception e)  // Error exception
+            {
+                //  Show error message (optional)
+                if (_showInfo)
+                {
+                    //  Write the newline and margin (optional)
+                    Write(_startLine + _margin);
+
+                    //  Write the error message
+                    if (_engLang)
+                    {
+                        Write("Error saving the binary data to the file >" + _fileName + "<\n");
+                        Write(_margin + "Output error: " + e);
+                    }
+                    else
+                    {
+                        Write("Ошибка сохранения двоичных данных в файл >" + _fileName + "<\n");
+                        Write(_margin + "Код ошибки: " + e);
+                    }
+
+                    //  Write end line (optional)
+                    Write(_endLine);
+                }
+            }
+        }
+             //  Saving some data to a chosen file, or trying to create it and then save the data
+
+
+
 
         //  --------------------  File management related functions  --------------------------------------//
-        
-        
+
+
 
         static public string[] GetFiles(string _path, bool _removePathFromFileNames,
             bool _showInfo = false, bool _engLang = true, string _margin = "\t",
@@ -742,9 +1082,12 @@ namespace DataManipulationLibrary
             //  return the found file names
             return _foundFiles;
         }
-        
+             //  Get all the file names in the selected directory
+             //  Can return the full names (with the path)
+             //  Or just the file names (without the path)
 
-        
+
+
         static public void DeleteFile(string _path, string _fileName, 
             bool _showInfo = false, bool _engLang = true, string _margin = "\t",
             string _startLine = "", string _endLine = "\n")
@@ -910,6 +1253,49 @@ namespace DataManipulationLibrary
             //  Write the endline (optional)
             Write(_endLine);
         }
-             //  Demo function, otherwise unnecessary
+             //  Demo function, waits for any user key to continue
+
+        static public bool GetLanguage()
+        {
+            string _userInput = "";
+            bool _firstTry = true;
+
+            //  Write newline for a better error output
+            Clear();
+            Write("\n\n");
+
+            while (_userInput != "e" && _userInput != "en" && _userInput != "eng" && _userInput != "english"
+                && _userInput != "r" && _userInput != "ru" && _userInput != "rus" && _userInput != "russian")
+            {
+                //  If we havent exited the loop
+                //  - its either our first try
+                //  - or the user input was invalid
+                //
+                //  So this is a simplified error detection output logic
+                if (!_firstTry) Write("\n\t[!]  - Invalid input, please try again\n");
+
+                //  Ask for input
+                Write("\n\t[?]  - Enter the language for the demo info output:");
+                Write("\n\t          > English (e / en / eng / english)");
+                Write("\n\t          > Russian (r / ru / rus / russian)\n");
+                Write("\n\t[->] - Choice: ");
+                _userInput = ReadLine().ToLower().Replace(" ", "");
+
+                //  Clear the info output console
+                Clear();
+
+                //  Set to not first try anymore
+                _firstTry = false;
+            }
+            Write("\n");
+
+            //  Funny way to determine the chosen language
+            //  Because the only user input possible are
+            //  > english-russian and shorter versions of them
+            //  
+            //  And we know for sure that the russian version doesnt have an "e" in it
+            return _userInput.Contains("e");
+        }
+             //  Demo function - gets the language for the demo output
     }
 }
