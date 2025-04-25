@@ -480,9 +480,9 @@ namespace DataManipulationLibrary
             bool _showInfo = false, bool _engLang = true, string _margin = "\t",
             string _startLine = "", string _endLine = "\n")
         {
-            if (File.Exists(Path.Combine(_path, _fileName)))
+            try
             {
-                try
+                if (File.Exists(Path.Combine(_path, _fileName)))
                 {
                     //  Initialize the file manager
                     StreamReader _dataReader = new StreamReader(Path.Combine(_path, _fileName));
@@ -526,64 +526,63 @@ namespace DataManipulationLibrary
                     //  Return the found data
                     return _foundData;
                 }
-                catch (Exception e)  // Error exception
-                {
-                    //  Show error message (optional)
-                    if (_showInfo)
+
+
+                //  If the file was not found, output error message (optional)
+                else if (_showInfo)
                     {
                         //  Write the newline and margin (optional)
                         Write(_startLine + _margin);
 
                         //  Write the error message
-                        if (_engLang)
-                        {
-                            Write("Error while reading the file >" + _fileName + "<\n");
-                            Write(_margin + "Output error: " + e);
-                        }
-                        else
-                        {
-                            Write("Ошибка при чтении файла >" + _fileName + "<\n");
-                            Write(_margin + "Код ошибки: " + e);
-                        }
+                        if (_engLang) Write("Error while reading the file! File >" + _fileName + "< was not found");
+                        else Write("Ошибка при чтении файла! Файл >" + _fileName + "< не найден");
 
                         //  Write end line (optional)
                         Write(_endLine);
                     }
 
-                    //  Return error
-                    return null;
-                }
+                //  Return error
+                return null;
             }
-            else
-            {
-                //  If the file was not found, output error message (optional)
+            catch (Exception e)  // Error exception
+            { 
+                //  Show error message (optional)
                 if (_showInfo)
                 {
                     //  Write the newline and margin (optional)
                     Write(_startLine + _margin);
 
                     //  Write the error message
-                    if (_engLang) Write("Error while reading the file! File >" + _fileName + "< was not found");
-                    else Write("Ошибка при чтении файла! Файл >" + _fileName + "< не найден");
+                    if (_engLang)
+                    {
+                        Write("Error while reading the file >" + _fileName + "<\n");
+                        Write(_margin + "Output error: " + e);
+                    }
+                    else
+                    {
+                        Write("Ошибка при чтении файла >" + _fileName + "<\n");
+                        Write(_margin + "Код ошибки: " + e);
+                    }
 
                     //  Write end line (optional)
                     Write(_endLine);
                 }
 
                 //  Return error
-                return null;  
+                return null;
             }
         }
-             //  Reading and returning the data inside a file
+        //  Reading and returning the data inside a file
 
 
         static public List<byte> ReadBinaryData(string _path, string _fileName,
             bool _showInfo = false, bool _engLang = true, string _margin = "\t",
             string _startLine = "", string _endLine = "\n")
         {
-            if (File.Exists(Path.Combine(_path, _fileName)))
+            try
             {
-                try
+                if (File.Exists(Path.Combine(_path, _fileName)))
                 {
                     //  Set the data read mode
                     Stream _stream = new FileStream(Path.Combine(_path, _fileName), FileMode.Open);
@@ -599,7 +598,7 @@ namespace DataManipulationLibrary
                     byte _helper;
 
                     //  Read bytes untill the file end
-                    for(int i = 0; i < _binaryDataReader.BaseStream.Length; i++)
+                    for (int i = 0; i < _binaryDataReader.BaseStream.Length; i++)
                     {
                         //  Read next byte from current position
                         _helper = _binaryDataReader.ReadByte();
@@ -629,38 +628,9 @@ namespace DataManipulationLibrary
                     //  Return the found data
                     return _foundData;
                 }
-                catch (Exception e)  // Error exception
-                {
-                    //  Show error message (optional)
-                    if (_showInfo)
-                    {
-                        //  Write the newline and margin (optional)
-                        Write(_startLine + _margin);
 
-                        //  Write the error message
-                        if (_engLang)
-                        {
-                            Write("Error while reading the binary file >" + _fileName + "<\n");
-                            Write(_margin + "Output error: " + e);
-                        }
-                        else
-                        {
-                            Write("Ошибка при чтении двоичного файла >" + _fileName + "<\n");
-                            Write(_margin + "Код ошибки: " + e);
-                        }
-
-                        //  Write end line (optional)
-                        Write(_endLine);
-                    }
-
-                    //  Return error
-                    return null;
-                }
-            }
-            else
-            {
                 //  If the file was not found, output error message (optional)
-                if (_showInfo)
+                else if (_showInfo)
                 {
                     //  Write the newline and margin (optional)
                     Write(_startLine + _margin);
@@ -676,6 +646,34 @@ namespace DataManipulationLibrary
                 //  Return error
                 return null;
             }
+            catch (Exception e)  // Error exception
+            {
+                //  Show error message (optional)
+                if (_showInfo)
+                {
+                    //  Write the newline and margin (optional)
+                    Write(_startLine + _margin);
+
+                    //  Write the error message
+                    if (_engLang)
+                    {
+                        Write("Error while reading the binary file >" + _fileName + "<\n");
+                        Write(_margin + "Output error: " + e);
+                    }
+                    else
+                    {
+                        Write("Ошибка при чтении двоичного файла >" + _fileName + "<\n");
+                        Write(_margin + "Код ошибки: " + e);
+                    }
+
+                    //  Write end line (optional)
+                    Write(_endLine);
+                }
+
+                //  Return error
+                return null;
+            }
+            
         }
              //  Reading and returning the binary data inside a file
 
@@ -702,7 +700,7 @@ namespace DataManipulationLibrary
                         _dataSaver.Write(_data[i]);
 
                         //  Split the data in the file
-                        _dataSaver.Write(_splitDataBy);
+                        if (_splitDataBy.Length > 0) _dataSaver.Write(_splitDataBy);
                     }
                     //  Save the last data chunk (without the splitter)
                     _dataSaver.Write(_data[_data.Count - 1]);
@@ -795,7 +793,7 @@ namespace DataManipulationLibrary
                 if (_data != null)
                 {
                     //  Convert data splitters to bytes (for binary encoding)
-                    byte[] splitterBytes = Encoding.UTF8.GetBytes(_splitDataBy);
+                    byte[] _splitterBytes = Encoding.UTF8.GetBytes(_splitDataBy);
 
                     for (int i = 0; i < _data.Count - 1; i++)
                     {
@@ -803,7 +801,7 @@ namespace DataManipulationLibrary
                         _binaryDataSaver.Write(_data[i]);
 
                         //  Split the data in the file (also in binary)
-                        _binaryDataSaver.Write(splitterBytes);
+                        if (_splitterBytes.Length > 0) _binaryDataSaver.Write(_splitterBytes);
                     }
                     //  Save the final data chunk to the file (without the splitter)
                     _binaryDataSaver.Write(_data[_data.Count - 1]);
@@ -916,7 +914,7 @@ namespace DataManipulationLibrary
                 if (_data != null)
                 {
                     //  Convert data splitters to bytes (for binary encoding)
-                    byte[] splitterBytes = Encoding.UTF8.GetBytes(_splitDataBy);
+                    byte[] _splitterBytes = Encoding.UTF8.GetBytes(_splitDataBy);
 
                     for (int i = 0; i < _data.Count - 1; i++)
                     {
@@ -924,7 +922,7 @@ namespace DataManipulationLibrary
                         _binaryDataSaver.Write(_data[i]);
 
                         //  Split the data in the file (also in binary)
-                        _binaryDataSaver.Write(splitterBytes);
+                        if (_splitterBytes.Length > 0) _binaryDataSaver.Write(_splitterBytes);
                     }
                     //  Save the final data chunk to the file (without the splitter)
                     _binaryDataSaver.Write(_data[_data.Count - 1]);
