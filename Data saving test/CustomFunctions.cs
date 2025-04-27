@@ -14,9 +14,9 @@ namespace DataManipulationLibrary
         //-----------------------------  Path related functions  ------------------------------------------//
 
 
-        static public string GetPath(bool _custom = false, string _subFolder = "\\Gyroscopic\\Unnamed",
-            bool _showInfo = false, bool _engLang = true, string _margin = "\t",
-            string _startLine = "", string _endLine = "\n")
+        static public string GetPath(bool _custom = false, bool _tryDefault = true, string _subFolder = "\\Gyroscopic\\Unnamed",
+             bool _showInfo = false, bool _engLang = true, string _margin = "\t",
+             string _startLine = "", string _endLine = "\n")
         {
             //  Storing the final path here
             string _path;
@@ -218,7 +218,8 @@ namespace DataManipulationLibrary
                     //  And we can't create it
                     //  Get the stock path (C:\Users\user_name\Documents\Gyroscopic\Unnamed)
                     //  (Or C:\Users\user_name\AppData\Local\Gyroscopic\Unnamed)
-                    _path = GetPath(false, _subFolder, _showInfo);
+                    if (_tryDefault) _path = GetPath(false, _tryDefault, _subFolder, _showInfo);
+                    else return null;
                 }
 
 
@@ -234,6 +235,7 @@ namespace DataManipulationLibrary
               *  ACCEPTS:
               *     -  Adding any subfolders into the selected directory path
               *     -  Default input as stated in the function arguments
+              *     -  Flag - dont try to return default path if user input fails
               *     -  Error outputing                                     */
 
 

@@ -19,7 +19,7 @@ namespace DataManipulationLibrary
 
             //  Get a path for the files
             Write("\n\n\n\n\n\n");
-            string path = GetPath(true, "\\Gyroscopic\\DataManipulation\\TestData", true, useEngLang);
+            string path = GetPath(true, true, "\\Gyroscopic\\DataManipulation\\TestData", true, useEngLang);
 
             
             //  Ouput chosen path, accounting for the language
