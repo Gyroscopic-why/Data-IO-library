@@ -694,7 +694,7 @@ namespace DataManipulationLibrary
 
                 if (_data != null)
                 {
-                    for (int i = 0; i < _data.Count; i++)
+                    for (int i = 0; i < _data.Count - 1; i++)
                     {
                         //  Save the data to the file
                         _dataSaver.Write(_data[i]);
