@@ -8,21 +8,21 @@
             <summary>
             
             Code purpose: <br/>
-             - Saves the byte[] binary <paramref name="_data"/> 
-            to a file <paramref name="_fileName"/> at the chosen <paramref name="_path"/>
+             - Saves the byte[] binary <paramref name="data"/> 
+            to a file <paramref name="fileName"/> at the chosen <paramref name="path"/>
             
             </summary>
             
-            <param name="_path"> - path for the file location</param>
-            <param name="_fileName"> - name for the final file</param>
-            <param name="_data"> - byte[] array of our data</param>
-            <param name="_dontOverwrite"> - flag for not overwriting the contents in the file</param>
-            <param name="_splitDataBy"> - splitter for the data array</param>
-            <param name="_showInfo"> - flag for showing info about the process</param>
-            <param name="_engLang"> - language for the info output</param>
-            <param name="_margin"> - margin for the info output</param>
-            <param name="_startLine"> - startline before each info output</param>
-            <param name="_endLine"> - endline after each info output</param>
+            <param name="path"> - path for the file location</param>
+            <param name="fileName"> - name for the final file</param>
+            <param name="data"> - byte[] array of our data</param>
+            <param name="dontOverwrite"> - flag for not overwriting the contents in the file</param>
+            <param name="splitDataBy"> - splitter for the data array</param>
+            <param name="showInfo"> - flag for showing info about the process</param>
+            <param name="engLang"> - language for the info output</param>
+            <param name="margin"> - margin for the info output</param>
+            <param name="startLine"> - startline before each info output</param>
+            <param name="endLine"> - endline after each info output</param>
         </member>
     </members>
 </doc>
