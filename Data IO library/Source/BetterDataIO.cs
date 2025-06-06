@@ -1,14 +1,15 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using System.Collections.Generic;
 
 using static System.Console;
-using System.Text;
 
 
-namespace DataManipulationLibrary
+
+namespace GyroscopicDataLibrary
 {
-    internal class CustomFunctions
+    public class BetterDataIO
     {
 
         //-----------------------------  Path related functions  ------------------------------------------//
@@ -254,7 +255,7 @@ namespace DataManipulationLibrary
 
                 //  Try to create the subfolders
                 Directory.CreateDirectory(path);
-                
+
                 //  Show success message (optional)
                 if (showInfo)
                 {
@@ -317,30 +318,30 @@ namespace DataManipulationLibrary
 
 
 
-        //----------------------------  Data manipulation related functions  ---------------------------------//
+        //----------------------------  Data IO related functions  ---------------------------------//
 
         //============================  Data reading  and parsing functions  =================================//
 
-        static public List<string> ParseData(List<string> data, bool removeEmptyLines = false, 
-            bool removeSpace = false, string spaceRemoveException = "", 
-            string lineIgnoreKeys = "", string ignoreTheseChars = "", 
+        static public List<string> ParseData(List<string> data, bool removeEmptyLines = false,
+            bool removeSpace = false, string spaceRemoveException = "",
+            string lineIgnoreKeys = "", string ignoreTheseChars = "",
             bool showInfo = false, bool engLang = true, string margin = "\t",
             string startLine = "", string endLine = "\n")
         {
 
-                //  Storing the parsed data here
+            //  Storing the parsed data here
             List<string> parsedData = new List<string>();
 
 
-                //  Temporary buffer for easier parsing
-                //  (stores the mid data before saving it to the final list)
+            //  Temporary buffer for easier parsing
+            //  (stores the mid data before saving it to the final list)
             string helper;
 
 
-                //  Flag for the state of the line saving
-                //
-                //  Tells if we should ignore it because of a special character
-                //  Or if we can save it
+            //  Flag for the state of the line saving
+            //
+            //  Tells if we should ignore it because of a special character
+            //  Or if we can save it
             bool ignoreThisLineFlag;
 
 
@@ -478,7 +479,7 @@ namespace DataManipulationLibrary
 
 
 
-        static public List<string> ReadData(string path, string fileName, 
+        static public List<string> ReadData(string path, string fileName,
             bool showInfo = false, bool engLang = true, string margin = "\t",
             string startLine = "", string endLine = "\n")
         {
@@ -532,23 +533,23 @@ namespace DataManipulationLibrary
 
                 //  If the file was not found, output error message (optional)
                 else if (showInfo)
-                    {
-                        //  Write the newline and margin (optional)
-                        Write(startLine + margin);
+                {
+                    //  Write the newline and margin (optional)
+                    Write(startLine + margin);
 
-                        //  Write the error message
-                        if (engLang) Write("Error while reading the file! File >" + fileName + "< was not found");
-                        else Write("Ошибка при чтении файла! Файл >" + fileName + "< не найден");
+                    //  Write the error message
+                    if (engLang) Write("Error while reading the file! File >" + fileName + "< was not found");
+                    else Write("Ошибка при чтении файла! Файл >" + fileName + "< не найден");
 
-                        //  Write end line (optional)
-                        Write(endLine);
-                    }
+                    //  Write end line (optional)
+                    Write(endLine);
+                }
 
                 //  Return error
                 return null;
             }
             catch (Exception e)  // Error exception
-            { 
+            {
                 //  Show error message (optional)
                 if (showInfo)
                 {
@@ -575,7 +576,7 @@ namespace DataManipulationLibrary
                 return null;
             }
         }
-        //  Reading and returning the data inside a file
+             //  Reading and returning the data inside a file
 
 
         static public List<byte> ReadBinaryData(string path, string fileName,
@@ -675,7 +676,7 @@ namespace DataManipulationLibrary
                 //  Return error
                 return null;
             }
-            
+
         }
              //  Reading and returning the binary data inside a file
 
@@ -684,7 +685,7 @@ namespace DataManipulationLibrary
         //============================  Data saving related functions  =======================================//
 
 
-        static public void SaveData(string path, string fileName, List<string> data, 
+        static public bool SaveData(string path, string fileName, List<string> data,
             bool dontOverwrite, string splitDataBy = "\n",
             bool showInfo = false, bool engLang = true, string margin = "\t",
             string startLine = "", string endLine = "\n")
@@ -721,10 +722,18 @@ namespace DataManipulationLibrary
                         //  Write end line (optional)
                         Write(endLine);
                     }
+
+
+                    //  Close the file manager
+                    dataSaver.Close();
+
+
+                    //  Return execution success
+                    return true;
                 }
 
                 //  Show error message (optional)
-                else if (showInfo) 
+                else if (showInfo)
                 {
                     //  Write the newline and margin if needed
                     Write(startLine + margin);
@@ -746,8 +755,9 @@ namespace DataManipulationLibrary
                 }
 
 
-                //  Close the file manager
+                //  Close the file manager (safety)
                 dataSaver.Close();
+
             }
             catch (Exception e)  // Error exception
             {
@@ -773,11 +783,15 @@ namespace DataManipulationLibrary
                     Write(endLine);
                 }
             }
+
+
+            //  Return execution error
+            return false;
         }
              //  Saving some data to a chosen file, or trying to create it and then save the data
 
 
-        static public void SaveBinaryData(string path, string fileName, List<byte> data, 
+        static public bool SaveBinaryData(string path, string fileName, List<byte> data,
             bool dontOverwrite, string splitDataBy = "\n",
             bool showInfo = false, bool engLang = true, string margin = "\t",
             string startLine = "", string endLine = "\n")
@@ -786,8 +800,8 @@ namespace DataManipulationLibrary
             {
                 //  Initialize the data saving mode
                 FileStream stream;
-                if (!dontOverwrite)  stream = new FileStream(Path.Combine(path, fileName), FileMode.Create);
-                else                  stream = new FileStream(Path.Combine(path, fileName), FileMode.Append);
+                if (!dontOverwrite) stream = new FileStream(Path.Combine(path, fileName), FileMode.Create);
+                else stream = new FileStream(Path.Combine(path, fileName), FileMode.Append);
 
                 //  Create a new binary writer
                 BinaryWriter binaryDataSaver = new BinaryWriter(stream);
@@ -823,6 +837,14 @@ namespace DataManipulationLibrary
                         //  Write end line (optional)
                         Write(endLine);
                     }
+
+
+                    //  Close the file manager
+                    binaryDataSaver.Close();
+
+
+                    //  Return execution success
+                    return true;
                 }
 
                 //  Show error message (optional)
@@ -848,8 +870,9 @@ namespace DataManipulationLibrary
                 }
 
 
-                //  Close the file manager
+                //  Close the file manager (safety)
                 binaryDataSaver.Close();
+
             }
             catch (Exception e)  // Error exception
             {
@@ -875,6 +898,10 @@ namespace DataManipulationLibrary
                     Write(endLine);
                 }
             }
+
+
+            //  Return execution error
+            return false;
         }
              //  Saving some data to a chosen file, or trying to create it and then save the data
 
@@ -898,7 +925,7 @@ namespace DataManipulationLibrary
         /// <param name="margin"> - margin for the info output</param>
         /// <param name="startLine"> - startline before each info output</param>
         /// <param name="endLine"> - endline after each info output</param>
-        static public void SaveBinaryData(string path, string fileName, List<byte[]> data,
+        static public bool SaveBinaryData(string path, string fileName, List<byte[]> data,
             bool dontOverwrite, string splitDataBy = "\n",
             bool showInfo = false, bool engLang = true, string margin = "\t",
             string startLine = "", string endLine = "\n")
@@ -908,7 +935,7 @@ namespace DataManipulationLibrary
                 //  Initialize the data saving mode
                 FileStream stream;
                 if (!dontOverwrite) stream = new FileStream(Path.Combine(path, fileName), FileMode.Create);
-                else                 stream = new FileStream(Path.Combine(path, fileName), FileMode.Append);
+                else stream = new FileStream(Path.Combine(path, fileName), FileMode.Append);
 
                 //  Create a new binary writer
                 BinaryWriter binaryDataSaver = new BinaryWriter(stream);
@@ -943,6 +970,14 @@ namespace DataManipulationLibrary
                         //  Write end line (optional)
                         Write(endLine);
                     }
+
+
+                    //  Close the file manager
+                    binaryDataSaver.Close();
+
+
+                    //  Return execution success
+                    return true;
                 }
 
                 //  Show error message (optional)
@@ -967,9 +1002,9 @@ namespace DataManipulationLibrary
                     Write(endLine);
                 }
 
-
-                //  Close the file manager
+                //  Close the file manager (safety)
                 binaryDataSaver.Close();
+
             }
             catch (Exception e)  // Error exception
             {
@@ -995,9 +1030,12 @@ namespace DataManipulationLibrary
                     Write(endLine);
                 }
             }
+
+
+            //  Return execution error
+            return false;
         }
              //  Saving some data to a chosen file, or trying to create it and then save the data
-
 
 
 
@@ -1005,7 +1043,164 @@ namespace DataManipulationLibrary
 
 
 
-        static public string[] GetFiles(string path, bool removePathFromFileNames,
+        static public bool ClearFile(string path, string fileName,
+            bool showInfo = false, bool engLang = true, string margin = "\t",
+            string startLine = "", string endLine = "\n")
+        {
+            try
+            {
+                //  Check if the file exists
+                if (File.Exists(Path.Combine(path, fileName)))
+                {
+                    //  New file manager to clear the file
+                    StreamWriter clearFile = new StreamWriter(Path.Combine(path, fileName), false);
+
+                    //  Show success message (optional)
+                    if (showInfo)
+                    {
+                        //  Write the newline and margin (optional)
+                        Write(startLine + margin);
+
+                        //  Write the success message
+                        if (engLang) Write("File >" + fileName + "< was successfully cleared");
+                        else Write("Файл >" + fileName + "< был успешно очищен");
+
+                        //  Write end line (optional)
+                        Write(endLine);
+                    }
+
+                    //  Close the file manager
+                    clearFile.Close();
+
+
+                    //  Return execution success
+                    return true;
+                }
+
+                //  Show error message (optional)
+                else if (showInfo)
+                {
+                    //  Write the newline and margin (optional)
+                    Write(startLine + margin);
+
+                    //  Write the error message
+                    if (engLang) Write("Error! File >" + fileName + "< was not found");
+                    else Write("Ошибка! Файл >" + fileName + "< не найден");
+
+                    //  Write end line (optional)
+                    Write(endLine);
+                }
+
+            }
+            catch (Exception e)  // Error exception
+            {
+                //  Show error message (optional)
+                if (showInfo)
+                {
+                    //  Write the newline and margin (optional)
+                    Write(startLine + margin);
+
+                    //  Write the error message
+                    if (engLang)
+                    {
+                        Write("Error while clearing the file >" + fileName + "<\n");
+                        Write(margin + "Output error: " + e);
+                    }
+                    else
+                    {
+                        Write("Ошибка при очистке файла >" + fileName + "<\n");
+                        Write(margin + "Код ошибки: " + e);
+                    }
+
+                    //  Write end line (optional)
+                    Write(endLine);
+                }
+            }
+
+            //  Return execution error
+            return false;
+        }
+             //  Clearing all the contents inside the chosen file
+
+
+        static public bool DeleteFile(string path, string fileName,
+            bool showInfo = false, bool engLang = true, string margin = "\t",
+            string startLine = "", string endLine = "\n")
+        {
+            try
+            {
+                //  Check if the file exists
+                if (File.Exists(Path.Combine(path, fileName)))
+                {
+                    //  Deleting the file
+                    File.Delete(Path.Combine(path, fileName));
+
+                    //  Show success message (optional)
+                    if (showInfo)
+                    {
+                        //  Write the newline and margin (optional)
+                        Write(startLine + margin);
+
+                        //  Write the success message
+                        if (engLang) Write("File >" + fileName + "< was successfully deleted");
+                        else Write("Файл >" + fileName + "< был успешно удалён");
+
+                        //  Write end line (optional)
+                        Write(endLine);
+                    }
+
+                    //  Return execution success
+                    return true;
+                }
+
+                //  Show error message (optional)
+                else if (showInfo)
+                {
+                    //  Write the newline and margin (optional)
+                    Write(startLine + margin);
+
+                    //  Write the error message
+                    if (engLang) Write("Error! File >" + fileName + "< was not found");
+                    else Write("Ошибка! Файл >" + fileName + "< не найден");
+
+                    //  Write end line (optional)
+                    Write(endLine);
+                }
+            }
+            catch (Exception e)  // Error exception
+            {
+                //  Show error message (optional)
+                if (showInfo)
+                {
+                    //  Write the newline and margin (optional)
+                    Write(startLine + margin);
+
+                    //  Write the error message
+                    if (engLang)
+                    {
+                        Write("Error while deleting the file >" + fileName + "<\n");
+                        Write(margin + "Output error: " + e);
+                    }
+                    else
+                    {
+                        Write("Ошибка при удалении файла >" + fileName + "<\n");
+                        Write(margin + "Код ошибки: " + e);
+                    }
+
+                    //  Write end line (optional)
+                    Write(endLine);
+                }
+            }
+
+            //  Return execution error
+            return false;
+        }
+             //  Deleting a file
+
+
+
+
+        static public string[] GetAllFiles(string path, bool removePathFromFileNames,
             bool showInfo = false, bool engLang = true, string margin = "\t",
             string startLine = "", string endLine = "\n")
         {
@@ -1037,8 +1232,10 @@ namespace DataManipulationLibrary
                     if (foundFiles.Length > 0)
                     {
                         //  Write the success message
-                        if (engLang) Write("Successfully got the files from the path >" + path + "<");
-                        else Write("Успешно получены файлы по пути >" + path + "<");
+                        if (engLang) Write("Successfully got "
+                            + foundFiles.Length + " files from the path >" + path + "<");
+                        else Write("Успешно получено "
+                            + foundFiles.Length + " файлов по пути >" + path + "<");
                     }
 
                     //  If no files were found
@@ -1087,51 +1284,91 @@ namespace DataManipulationLibrary
              //  Or just the file names (without the path)
 
 
-
-        static public void DeleteFile(string path, string fileName, 
+        static public List<string> GetFilesWithExtension(string path, string extension, bool removePathFromFileNames,
             bool showInfo = false, bool engLang = true, string margin = "\t",
             string startLine = "", string endLine = "\n")
         {
-            try
+            //  Temporary buffer needed for an optimised check for the extention being valid
+            int extValidTemp = extension.IndexOf('.');
+
+            if (extValidTemp == -1 || extValidTemp != extension.LastIndexOf('.'))
             {
-                //  Check if the file exists
-                if (File.Exists(Path.Combine(path, fileName)))
-                {
-                    //  Deleting the file
-                    File.Delete(Path.Combine(path, fileName));
-
-                    //  Show success message (optional)
-                    if (showInfo)
-                    {
-                        //  Write the newline and margin (optional)
-                        Write(startLine + margin);
-
-                        //  Write the success message
-                        if (engLang) Write("File >" + fileName + "< was successfully deleted");
-                        else Write("Файл >" + fileName + "< был успешно удалён");
-
-                        //  Write end line (optional)
-                        Write(endLine);
-                    }
-                }
-
-                //  Show error message (optional)
-                else if (showInfo)
+                //  Show success message (optional)
+                if (showInfo)
                 {
                     //  Write the newline and margin (optional)
                     Write(startLine + margin);
 
-                    //  Write the error message
-                    if (engLang) Write("Error! File >" + fileName + "< was not found");
-                    else Write("Ошибка! Файл >" + fileName + "< не найден");
+                    //  Write the success message
+                    if (engLang) Write("Provided extension is not valid or in a correct format");
+                    else Write("Переданный параметр расширения в некорректном формате");
 
-                    //  Write end line (optional)
+                    //  Write endline (optional)
+                    Write(endLine);
+                }
+
+                //  Return fatal execution error
+                return null;
+            }
+
+
+            List<string> foundFilesWithExtension = new List<string>();
+
+            try
+            {
+                //  Get the file names for the chosen directory path
+                string[] allFoundFiles = Directory.GetFiles(path);
+
+                for (int i = 0; i < allFoundFiles.Length; i++)
+                {
+                    //  Save file if the end (extension) of the filename matches
+                    if (allFoundFiles[i].EndsWith(extension)) foundFilesWithExtension.Add(allFoundFiles[i]);
+                }
+
+
+                //  Cut the path from the file names (optional)
+                if (removePathFromFileNames)
+                {
+                    //  For every found file
+                    for (int i = 0; i < foundFilesWithExtension.Count; i++)
+                    {
+                        //  Edit the file name to not include the path
+                        foundFilesWithExtension[i] = Path.GetFileName(foundFilesWithExtension[i]);
+                    }
+                }
+
+                //  Show success message (optional)
+                if (showInfo)
+                {
+                    //  Write the newline and margin (optional)
+                    Write(startLine + margin);
+
+                    //  If the files were found
+                    if (foundFilesWithExtension.Count > 0)
+                    {
+                        //  Write the success message
+                        if (engLang) Write("Successfully got " + foundFilesWithExtension.Count 
+                            + " " + extension + " files from the path >" + path + "<");
+                        else Write("Успешно получено " + foundFilesWithExtension.Count 
+                            + " " + extension + " файлов по пути >" + path + "<");
+                    }
+
+                    //  If no files were found
+                    else
+                    {
+                        //  Write the error message
+                        if (engLang) Write("No files found in the path >" + path + "<");
+                        else Write("Не найдено ни одного файла по пути >" + path + "<");
+                    }
+
+
+                    //  Write endline (optional)
                     Write(endLine);
                 }
             }
-            catch (Exception e)  // Error exception
+            catch (Exception e)
             {
-                //  Show error message (optional)
+                //  Write the error message (optional)
                 if (showInfo)
                 {
                     //  Write the newline and margin (optional)
@@ -1140,68 +1377,78 @@ namespace DataManipulationLibrary
                     //  Write the error message
                     if (engLang)
                     {
-                        Write("Error while deleting the file >" + fileName + "<\n");
+                        Write("Error while getting " + extension + " files from the path >" + path + "<\n");
                         Write(margin + "Output error: " + e);
                     }
                     else
                     {
-                        Write("Ошибка при удалении файла >" + fileName + "<\n");
+                        Write("Ошибка при получении " + extension + " файлов по пути >" + path + "<\n");
                         Write(margin + "Код ошибки: " + e);
                     }
 
-                    //  Write end line (optional)
+                    //  Write endline (optional)
                     Write(endLine);
                 }
             }
+
+            //  return the found file names
+            return foundFilesWithExtension;
         }
-             //  Deleting a file
+             //  Get all the file names in the selected directory
+             //  Can return the full names (with the path)
+             //  Or just the file names (without the path)
 
 
-        static public void ClearFile(string path, string fileName, 
-            bool showInfo = false, bool engLang = true, string margin = "\t", 
+
+        static public bool CopyFile(string oldPath, string newPath, string oldFileName, string newFileName = "",
+            bool showInfo = false, bool engLang = true, string margin = "\t",
             string startLine = "", string endLine = "\n")
         {
+
+            //  Dont renaime the file if the user didnt specify
+            if (newFileName == "") newFileName = oldFileName;
+
+
             try
             {
-                //  Check if the file exists
-                if (File.Exists(Path.Combine(path, fileName)))
-                {
-                    //  New file manager to clear the file
-                    StreamWriter clearFile = new StreamWriter(Path.Combine(path, fileName), false);
+                //  Try to copy the file from the old path to the new path
+                File.Copy(Path.Combine(oldPath, oldFileName), Path.Combine(newPath, newFileName));
 
-                    //  Show success message (optional)
-                    if (showInfo)
-                    {
-                        //  Write the newline and margin (optional)
-                        Write(startLine + margin);
 
-                        //  Write the success message
-                        if (engLang) Write("File >" + fileName + "< was successfully cleared");
-                        else Write("Файл >" + fileName + "< был успешно очищен");
-
-                        //  Write end line (optional)
-                        Write(endLine);
-                    }
-
-                    //  Close the file manager
-                    clearFile.Close();
-                }
-
-                //  Show error message (optional)
-                else if (showInfo)
+                //  Show success message (optional)
+                if (showInfo)
                 {
                     //  Write the newline and margin (optional)
                     Write(startLine + margin);
 
-                    //  Write the error message
-                    if (engLang) Write("Error! File >" + fileName + "< was not found");
-                    else Write("Ошибка! Файл >" + fileName + "< не найден");
+                    //  Write the success message
+                    if (engLang)
+                    {
+                        Write("File >" + oldFileName + "< was successfully copied");
+                        if (newFileName != oldFileName) Write(" and renaimed");
+                        Write("!\n");
+
+                        Write(margin + "From >" + oldPath + "<   old file name: " + oldFileName + "\n");
+                        Write(margin + "To   >" + newPath + "<   new file name: " + newFileName);
+                    }
+                    else
+                    {
+                        Write("Файл >" + oldFileName + "< был успешно скопирован");
+                        if (newFileName != oldFileName) Write(" и переименован");
+                        Write("!\n");
+
+                        Write(margin + "Из >" + oldPath + "<   старое имя файла: " + oldFileName + "\n");
+                        Write(margin + "В  >" + newPath + "<    новое имя файла: " + newFileName);
+                    }
 
                     //  Write end line (optional)
                     Write(endLine);
                 }
-                
+
+                //  Return execution success
+                return true;
             }
+
             catch (Exception e)  // Error exception
             {
                 //  Show error message (optional)
@@ -1213,12 +1460,12 @@ namespace DataManipulationLibrary
                     //  Write the error message
                     if (engLang)
                     {
-                        Write("Error while clearing the file >" + fileName + "<\n");
+                        Write("Error while copying the file >" + oldFileName + "<\n");
                         Write(margin + "Output error: " + e);
                     }
                     else
                     {
-                        Write("Ошибка при очистке файла >" + fileName + "<\n");
+                        Write("Ошибка при копировании файла >" + oldFileName + "<\n");
                         Write(margin + "Код ошибки: " + e);
                     }
 
@@ -1226,76 +1473,193 @@ namespace DataManipulationLibrary
                     Write(endLine);
                 }
             }
+
+            //  Return execution error
+            return false;
         }
-             //  Clearing all the contents inside the chosen file
+             /*  Copying a file from one directory to another
+              *  
+              *  RETURNS:
+              *     - true:  the file was successfully copied
+              *     - false: an error occured, could not copy the file
+              *  ACCEPTS:
+              *     -  Path to the source directory
+              *     -  Path to the destination directory
+              *     -  Name of the source file
+              *     -  Information output                            */
 
 
-
-        //-----------------------------  For demo only functions  ----------------------------------------------------//
-
-        static public void WaitForAnyKey(bool clearAfter = false, 
-            bool engLang = true, string margin = "\t",
-            string startLine = "\n", string endLine = "\n\n")
+        static public bool MoveFile(string oldPath, string newPath, string oldFileName, string newFileName = "",
+            bool showInfo = false, bool engLang = true, string margin = "\t",
+            string startLine = "", string endLine = "\n")
         {
-            //  Write the newline and margin (optional)
-            Write(startLine + margin);
 
-            //  Write the message
-            if (engLang)  Write("Press any key to continue ");
-            else Write("Нажмите любую клавишу для продолжения ");
+            //  Dont renaime the file if the user didnt specify
+            if (newFileName == "") newFileName = oldFileName;
 
-            //  Wait for the user input
-            ReadKey();
 
-            //  Clearing the console (optional)
-            if (clearAfter) Clear();
-
-            //  Write the endline (optional)
-            Write(endLine);
-        }
-             //  Demo function, waits for any user key to continue
-
-        static public bool GetLanguage()
-        {
-            string userInput = "";
-            bool firstTry = true;
-
-            //  Write newline for a better error output
-            Clear();
-            Write("\n\n");
-
-            while (userInput != "e" && userInput != "en" && userInput != "eng" && userInput != "english"
-                && userInput != "r" && userInput != "ru" && userInput != "rus" && userInput != "russian")
+            try
             {
-                //  If we havent exited the loop
-                //  - its either our first try
-                //  - or the user input was invalid
-                //
-                //  So this is a simplified error detection output logic
-                if (!firstTry) Write("\n\t[!]  - Invalid input, please try again\n");
+                //  Try to move the file from the old path to the new path
+                File.Move(Path.Combine(oldPath, oldFileName), Path.Combine(newPath, newFileName));
 
-                //  Ask for input
-                Write("\n\t[?]  - Enter the language for the demo info output:");
-                Write("\n\t          > English (e / en / eng / english)");
-                Write("\n\t          > Russian (r / ru / rus / russian)\n");
-                Write("\n\t[->] - Choice: ");
-                userInput = ReadLine().ToLower().Replace(" ", "");
 
-                //  Clear the info output console
-                Clear();
+                //  Show success message (optional)
+                if (showInfo)
+                {
+                    //  Write the newline and margin (optional)
+                    Write(startLine + margin);
 
-                //  Set to not first try anymore
-                firstTry = false;
+                    //  Write the success message
+                    if (engLang)
+                    {
+                        Write("File >" + oldFileName + "< was successfully moved");
+                        if (newFileName != oldFileName) Write(" and renaimed");
+                        Write("!\n");
+
+                        Write(margin + "From >" + oldPath + "<   old file name: " + oldFileName + "\n");
+                        Write(margin + "To   >" + newPath + "<   new file name: " + newFileName);
+                    }
+                    else
+                    {
+                        Write("Файл >" + oldFileName + "< был успешно перемещён");
+                        if (newFileName != oldFileName) Write(" и переименован");
+                        Write("!\n");
+
+                        Write(margin + "Из >" + oldPath + "<   старое имя файла: " + oldFileName + "\n");
+                        Write(margin + "В  >" + newPath + "<    новое имя файла: " + newFileName);
+                    }
+
+                    //  Write end line (optional)
+                    Write(endLine);
+                }
+
+                //  Return execution success
+                return true;
             }
-            Write("\n");
 
-            //  Funny way to determine the chosen language
-            //  Because the only user input possible are
-            //  > english-russian and shorter versions of them
-            //  
-            //  And we know for sure that the russian version doesnt have an "e" in it
-            return userInput.Contains("e");
+            catch (Exception e)  // Error exception
+            {
+                //  Show error message (optional)
+                if (showInfo)
+                {
+                    //  Write the newline and margin (optional)
+                    Write(startLine + margin);
+
+                    //  Write the error message
+                    if (engLang)
+                    {
+                        Write("Error while moving the file >" + oldFileName + "<\n");
+                        Write(margin + "Output error: " + e);
+                    }
+                    else
+                    {
+                        Write("Ошибка при перемещении файла >" + oldFileName + "<\n");
+                        Write(margin + "Код ошибки: " + e);
+                    }
+
+                    //  Write end line (optional)
+                    Write(endLine);
+                }
+            }
+
+            //  Return execution error
+            return false;
         }
-             //  Demo function - gets the language for the demo output
+             /*  Moving a file from one directory to another
+              *  
+              *  RETURNS:
+              *     - true:  the file was successfully moved
+              *     - false: an error occured, could not move the file
+              *  ACCEPTS:
+              *     -  Path to the source directory
+              *     -  Path to the                                           */
+
+
+        static public bool RenameFile(string path, string oldFileName, string newFileName,
+            bool showInfo = false, bool engLang = true, string margin = "\t",
+            string startLine = "", string endLine = "\n")
+        {
+
+            //  Dont rename the file if the user didnt specify
+            if (newFileName == "") newFileName = oldFileName;
+
+
+            try
+            {
+                //  Since there are no standart rename functions in C#,
+                //  We just use the .Move function but dont actually move the file (keep it in the same path)
+                //  just "replacing" the old file name with the new one
+                File.Move(Path.Combine(path, oldFileName), Path.Combine(path, newFileName));
+
+
+                //  Show success message (optional)
+                if (showInfo)
+                {
+                    //  Write the newline and margin (optional)
+                    Write(startLine + margin);
+
+                    //  Write the success message
+                    if (engLang)
+                    {
+                        Write("File >" + oldFileName + "< was successfully renaimed!\n");
+
+                        Write(margin + "Old file name: " + oldFileName + "\n");
+                        Write(margin + "New file name: " + newFileName);
+                    }
+                    else
+                    {
+                        Write("Файл >" + oldFileName + "< был успешно переименован!\n");
+
+                        Write(margin + "Старое имя файла: " + oldFileName + "\n");
+                        Write(margin + "Новое  имя файла: " + newFileName);
+                    }
+
+                    //  Write end line (optional)
+                    Write(endLine);
+                }
+
+                //  Return execution success
+                return true;
+            }
+
+            catch (Exception e)  // Error exception
+            {
+                //  Show error message (optional)
+                if (showInfo)
+                {
+                    //  Write the newline and margin (optional)
+                    Write(startLine + margin);
+
+                    //  Write the error message
+                    if (engLang)
+                    {
+                        Write("Error while renaiming the file >" + oldFileName + "<\n");
+                        Write(margin + "Output error: " + e);
+                    }
+                    else
+                    {
+                        Write("Ошибка при переименовывании файла >" + oldFileName + "<\n");
+                        Write(margin + "Код ошибки: " + e);
+                    }
+
+                    //  Write end line (optional)
+                    Write(endLine);
+                }
+            }
+
+            //  Return execution error
+            return false;
+        }
+             /*  Renaming a file in the same directory
+              *  
+              *  RETURNS:
+              *     - true:  the file was successfully renamed
+              *     - false: an error occured, could not rename the file
+              *  ACCEPTS:
+              *     -  Path to the source directory
+              *     -  Name of the source file
+              *     -  New name for the file
+              *     -  Information output                            */
     }
 }

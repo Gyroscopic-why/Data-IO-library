@@ -299,8 +299,7 @@ __pycache__/
 *.csproj
 *.targets
 *.props
-Data saving test/obj/Release/.NETFramework,Version=v4.8.AssemblyAttributes.cs
-Data saving test/obj/Release/Data saving test.csproj.FileListAbsolute.txt
 *.vsidx
-
-Data saving test/obj/Release/Data-manipulation-library.csproj.FileListAbsolute.txt
+/Data IO library/obj
+*.xml
+/obj

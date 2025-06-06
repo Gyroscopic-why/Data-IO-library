@@ -1,9 +1,15 @@
 ﻿using System.Collections.Generic;
+
 using static System.Console;
 
-using static DataManipulationLibrary.CustomFunctions;
 
-namespace DataManipulationLibrary
+using static GyroscopicDataLibrary.BetterDataIO;
+using static GyroscopicDataLibrary.DemoFunctions;
+using static GyroscopicDataLibrary.TypeConversions;
+
+
+
+namespace GyroscopicDataLibrary
 {
     class Program
     {
@@ -13,8 +19,8 @@ namespace DataManipulationLibrary
             //  True = english,  false = russian
             bool useEngLang = GetLanguage();
 
-            if (useEngLang) Title = "Data Manipulation Library demo";
-            else Title = "Демо библиотеки манипуляции данными";
+            if (useEngLang) Title = "Data IO Library demo";
+            else Title = "Демо библиотеки для работы данными";
 
 
             //  Get a path for the files
@@ -28,12 +34,19 @@ namespace DataManipulationLibrary
             WaitForAnyKey(false, useEngLang);
 
 
+
             //  Find files in the current directory
-            string[] files = GetFiles(path, true, true);
+            string[] files = GetAllFiles(path, true, true);
+            string[] txtFiles = ToStringArray(GetFilesWithExtension(path, ".txt", true, true, useEngLang));
 
             //  Print all found files
             for (int i = 0; i < files.Length; i++)
             {
+                if (i < txtFiles.Length)
+                {
+                    if (useEngLang) Write("\tFound .txt file: " + txtFiles[i] + "\n");
+                    else Write("\tНайден .txt файл: " + txtFiles[i] + "\n");
+                }
                 if (useEngLang) Write("\tFound file: " + files[i] + "\n");
                 else Write("\tНайден файл: " + files[i] + "\n");
             }
